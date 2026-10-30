@@ -1,17 +1,23 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Field,
   FieldDescription,
   FieldError,
   FieldGroup,
   FieldLabel,
-} from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText,
+  InputGroupTextarea,
+} from "@/components/ui/input-group";
 
 const formSchema = z.object({
   title: z
@@ -39,11 +45,57 @@ const PatientForm = () => {
   }
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)}>
-      {/* ... */}
-      {/* Build the form here */}
-      {/* ... */}
-      Patient Form
+    <form id="form-rhf-demo" onSubmit={form.handleSubmit(onSubmit)}>
+      <FieldGroup>
+        <Controller
+          name="title"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor="form-rhf-demo-title">Bug Title</FieldLabel>
+              <Input
+                {...field}
+                id="form-rhf-demo-title"
+                aria-invalid={fieldState.invalid}
+                placeholder="Login button not working on mobile"
+                autoComplete="off"
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
+        <Controller
+          name="description"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor="form-rhf-demo-description">
+                Description
+              </FieldLabel>
+              <InputGroup>
+                <InputGroupTextarea
+                  {...field}
+                  id="form-rhf-demo-description"
+                  placeholder="I'm having an issue with the login button on mobile."
+                  rows={6}
+                  className="min-h-24 resize-none"
+                  aria-invalid={fieldState.invalid}
+                />
+                <InputGroupAddon align="block-end">
+                  <InputGroupText className="tabular-nums">
+                    {field.value.length}/100 characters
+                  </InputGroupText>
+                </InputGroupAddon>
+              </InputGroup>
+              <FieldDescription>
+                Include steps to reproduce, expected behavior, and what actually
+                happened.
+              </FieldDescription>
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
+      </FieldGroup>
     </form>
   );
 };
