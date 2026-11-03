@@ -39,6 +39,7 @@ const PatientForm = () => {
     },
   });
 
+  
   function onSubmit(data: z.infer<typeof formSchema>) {
     // Do something with the form values.
     console.log(data);
